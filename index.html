@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>test Menu Bookmarklet</title>
+  <title>Nova Menu Bookmarklet</title>
   <style>
     body {
-      background:#0b0b0b;
-      color:#0f0;
-      font-family:monospace;
-      text-align:center;
+      background: #0b0b0b;
+      color: #0f0;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 50px;
     }
     a {
-      display:inline-block;
-      padding:15px 25px;
-      background:#111;
-      color:#0f0;
-      text-decoration:none;
-      border:1px solid #0f0;
-      margin-top:20px;
-      cursor:grab;
+      display: inline-block;
+      padding: 16px 28px;
+      background: #111;
+      color: #0f0;
+      text-decoration: none;
+      border: 2px solid #0f0;
+      font-size: 18px;
+      cursor: grab;
     }
   </style>
 </head>
 <body>
 
 <h1>Nova Menu</h1>
-<p>Drag the button below to your bookmarks bar.</p>
+<p>Drag this button to your bookmarks bar</p>
 
-<a id="bm" href="#">Nova Menu</a>
-
-<script>
-fetch("bookmarklet.js")
-  .then(r=>r.text())
-  .then(t=>{
-    document.getElementById("bm").href = t;
-  });
-</script>
+<a href='javascript:(function(){fetch("https://raw.githubusercontent.com/EEEE842/test/main/injector.js").then(r=>r.text()).then(c=>eval(c));})();'>
+Nova Menu
+</a>
 
 </body>
 </html>
