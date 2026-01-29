@@ -1,5 +1,5 @@
 (function () {
-    const PROJECT_URL =
+    const PROJECT_URL = 
         "https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/test.sb3";
 
     function getScratchVM() {
@@ -20,16 +20,26 @@
                 return store.getState().scratchGui.vm;
             } catch {}
         }
+
+        try {
+            return app._reactRootContainer
+                ._internalRoot.current.child.pendingProps.store
+                .getState().scratchGui.vm;
+        } catch {}
+
         return null;
     }
 
     const vm = getScratchVM();
-    if (!vm) return alert("VM not found");
+    if (!vm) {
+        alert("VM not found");
+        return;
+    }
 
     vm.runtime.canAddCloudVariable = () => true;
 
     fetch(PROJECT_URL)
         .then(r => r.arrayBuffer())
         .then(b => vm.loadProject(b))
-        .then(() => alert("Nova Menu loaded"));
+        .catch(() => alert("Injection failed"));
 })();
