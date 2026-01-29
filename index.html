@@ -49,15 +49,15 @@
 <p>Select a menu, then drag the inject button to your bookmarks bar.</p>
 
 <select id="menu" onchange="update()">
-  <option value="https://raw.githubusercontent.com/EEEE842/test/main/test.sb3">
+  <option value="https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/test.sb3">
     Nova Menu
   </option>
 
-  <option value="https://raw.githubusercontent.com/EEEE842/test/main/another.sb3">
+  <option value="https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/another.sb3">
     Another Menu
   </option>
 
-  <option value="https://raw.githubusercontent.com/EEEE842/test/main/dev.sb3">
+  <option value="https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/dev.sb3">
     Dev / Test Menu
   </option>
 </select>
@@ -79,7 +79,7 @@ function update() {
   // Bookmarklet
   const bookmarklet =
     `javascript:(function(){
-      fetch("https://raw.githubusercontent.com/EEEE842/test/main/injector.js")
+      fetch("https://raw.githubusercontent.com/EEEE842/namehereinjectablemenu/main/injector.js")
         .then(r=>r.text())
         .then(code=>{
           eval(code.replace(
