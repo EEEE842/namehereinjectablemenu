@@ -63,34 +63,65 @@ function update() {
 
   const bookmarklet =
     "javascript:(function(){"+
-    "function findVMWindow(){"+
-      // Case 1: TurboWarp exposes vm directly
-      "if(window.vm){ return window; }"+
-      // Case 2: iframe-based VM
+
+    // ---------- FIND VM ----------
+    "function findVM(){"+
+
+      // ===== 1) SCRATCH =====
+      "try{"+
+        "if(location.hostname.includes('scratch.mit.edu')){"+
+          "const app=document.getElementById('app');"+
+          "if(app){"+
+            "const key=Object.keys(app).find(k=>k.startsWith('__reactContainer'));"+
+            "if(key){"+
+              "const fiber=app[key];"+
+              "const store=fiber.child?.memoizedProps?.store;"+
+              "if(store) return store.getState().scratchGui.vm;"+
+            "}"+
+            "if(app._reactRootContainer){"+
+              "const store=app._reactRootContainer._internalRoot.current.child.pendingProps.store;"+
+              "if(store) return store.getState().scratchGui.vm;"+
+            "}"+
+          "}"+
+        "}"+
+      "}catch(e){}"+
+
+      // ===== 2) TURBOWARP DIRECT =====
+      "if(window.vm) return window.vm;"+
+      "if(window.__TW_VM__) return window.__TW_VM__;"+
+
+      // ===== 3) TURBOWARP IFRAME =====
       "let frames=document.getElementsByTagName('iframe');"+
       "for(let i=0;i<frames.length;i++){"+
         "try{"+
-          "if(frames[i].contentWindow && frames[i].contentWindow.vm){"+
-            "return frames[i].contentWindow;"+
-          "}"+
+          "let w=frames[i].contentWindow;"+
+          "if(!w) continue;"+
+          "if(w.vm) return w.vm;"+
+          "if(w.__TW_VM__) return w.__TW_VM__;"+
         "}catch(e){}"+
       "}"+
+
       "return null;"+
     "}"+
-    "function inject(win){"+
-      "win.ES_SELECTED_SB3='"+ sb3 +"';"+
-      "var s=win.document.createElement('script');"+
+
+    // ---------- INJECT ----------
+    "function inject(vm){"+
+      "window.ES_SELECTED_SB3='"+ sb3 +"';"+
+      "var s=document.createElement('script');"+
       "s.src='https://raw.githubusercontent.com/EEEE842/esmodinjector/main/injector.js';"+
-      "win.document.body.appendChild(s);"+
+      "document.body.appendChild(s);"+
     "}"+
-    "var w=findVMWindow();"+
-    "if(!w){ alert('Scratch/TurboWarp VM not found'); return; }"+
-    "inject(w);"+
+
+    "var vm=findVM();"+
+    "if(!vm){alert('Scratch/TurboWarp VM not found');return;}"+
+    "inject(vm);"+
+
     "})();";
 
   document.getElementById("inject").href = bookmarklet;
   document.getElementById("download").href = sb3;
 }
+
 
 update();
 </script>
