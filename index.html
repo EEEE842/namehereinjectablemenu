@@ -11,14 +11,7 @@
       padding-top: 60px;
     }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 5px;
-    }
-
-    p {
-      margin-bottom: 20px;
-    }
+    h1 { font-size: 36px; }
 
     select {
       padding: 10px;
@@ -42,9 +35,7 @@
       color: #fff;
     }
 
-    .footer {
-      margin-top: 40px;
-    }
+    .footer { margin-top: 40px; }
   </style>
 </head>
 <body>
@@ -53,19 +44,9 @@
 <p>Select a menu, then drag the inject button to your bookmarks bar.</p>
 
 <select id="menu" onchange="update()">
-
-  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/test.sb3">
-    Nova Menu
-  </option>
-
-  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/dev.sb3">
-    Dev Menu
-  </option>
-
-  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/rd.sb3">
-    Robot Destructor Menu
-  </option>
-
+  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/test.sb3">Nova Menu</option>
+  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/dev.sb3">Dev Menu</option>
+  <option value="https://raw.githubusercontent.com/EEEE842/esmodinjector/main/rd.sb3">Robot Destructor Menu</option>
 </select>
 
 <br>
@@ -80,25 +61,18 @@
 function update() {
   const sb3 = document.getElementById("menu").value;
 
-  // Single-line, browser-safe bookmarklet
   const bookmarklet =
     "javascript:(function(){"+
-    "alert('Loading injection...');"+
-    "fetch('https://raw.githubusercontent.com/EEEE842/esmodinjector/main/injector.js')"+
-    ".then(r=>r.text())"+
-    ".then(code=>{"+
-      "eval(code.replace(/const PROJECT_URL =[^;]+;/,"+
-      "'const PROJECT_URL = \"" + sb3 + "\";'));"+
-      "alert('Injection complete!');"+
-    "})"+
-    ".catch(()=>alert('Injection failed!'));"+
+    "window.ES_SELECTED_SB3='" + sb3 + "';"+
+    "var s=document.createElement('script');"+
+    "s.src='https://raw.githubusercontent.com/EEEE842/esmodinjector/main/injector.js';"+
+    "document.body.appendChild(s);"+
     "})();";
 
   document.getElementById("inject").href = bookmarklet;
   document.getElementById("download").href = sb3;
 }
 
-// init on load
 update();
 </script>
 
